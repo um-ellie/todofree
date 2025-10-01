@@ -1,9 +1,10 @@
+import json
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, DeleteView, UpdateView
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy
 from .forms import TaskForm
-from .models import Task
+from .models import Task, Category
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.views import View
@@ -87,3 +88,25 @@ class TaskDeleteAjaxView(LoginRequiredMixin, View):
             "success": True,
             "task_id": pk
         })
+
+
+class AddCategoryAjaxView(LoginRequiredMixin, View):
+    def post(self, request):
+        data = json.loads(request.body)
+        name = data.get('name')
+        if name:
+            cat = Category.objects.create(user=request.user, name=name)
+            return JsonResponse({"success": True, "pk": cat.pk, "name": cat.name})
+        return JsonResponse({"success": False})
+
+class DeleteCategoryAjaxView(LoginRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        data = json.loads(request.body)
+        cat_id = data.get('id')
+        category = Category.objects.filter(pk=cat_id, user=request.user).first()
+        if not category:
+            return JsonResponse({'success': False, 'error': 'Category not found'})
+        if category.task_set.exists():
+            return JsonResponse({'success': False, 'error': 'Category has tasks'})
+        category.delete()
+        return JsonResponse({'success': True})

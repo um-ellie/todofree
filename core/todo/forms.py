@@ -15,9 +15,7 @@ class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         user = kwargs.pop('user', None)
         super().__init__(*args, **kwargs)
-        if user:
+        
+        self.fields['category'].queryset = Category.objects.filter(user=user)
 
-            self.fields['category'].queryset = Category.objects.filter(user=user)
-        else:
-
-            self.fields['category'].queryset = Category.objects.none()
+        self.fields['category'].widget = forms.HiddenInput()

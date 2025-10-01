@@ -1,0 +1,7 @@
+#new-category-wrapper {
+    transition: all 0.2s ease-in-out;
+}
+
+#category-list li:hover {
+    background-color: #f3f4f6; /* Tailwind gray-100 */
+}

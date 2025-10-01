@@ -1,7 +1,11 @@
 {% extends "base.html" %}
-{% load crispy_forms_tags %}
+{% load crispy_forms_tags static %}
 
 {% block title %}{% if object %}Edit Task{% else %}Add Task{% endif %} - TodoFree{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'todo/css/task_form.css' %}">
+{% endblock %}
 
 {% block content %}
 <div class="max-w-lg mx-auto bg-white shadow-md rounded-xl p-6">
@@ -12,13 +16,51 @@
     </h2>
 
     <!-- Task form -->
-    <form method="post" class="space-y-4">
+    <form method="post" class="space-y-4" id="task-form">
         {% csrf_token %}
-        
-        <!-- crispy form -->
         {{ form|crispy }}
 
-        <!-- actions -->
+        <!-- Category Selector + Add Button -->
+        <div class="flex items-center space-x-2">
+            <select id="category-select" name="category" class="border rounded px-2 py-1 w-full">
+                <option value="">-- Select Category --</option>
+                {% for cat in form.fields.category.queryset %}
+                    <option value="{{ cat.pk }}" {% if form.instance.category == cat %}selected{% endif %}>
+                        {{ cat.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <button type="button" id="show-add-category" 
+                    class="px-2 py-1 bg-indigo-500 text-white rounded hover:bg-indigo-600 text-sm">
+                + Add
+            </button>
+        </div>
+
+        <!-- New Category Input (hidden) -->
+        <div id="new-category-wrapper" class="hidden mt-2 flex space-x-2">
+            <input type="text" id="new-category-input" class="border rounded px-2 py-1 w-full" placeholder="New category name">
+            <button type="button" id="add-category-btn" 
+                    class="px-2 py-1 bg-green-500 text-white rounded hover:bg-green-600 text-sm">
+                Save
+            </button>
+        </div>
+
+        <!-- User Categories List for Deletion -->
+        <ul id="category-list" class="mt-2 space-y-1">
+            {% for cat in form.fields.category.queryset %}
+            <li data-id="{{ cat.pk }}" class="flex justify-between items-center border px-2 py-1 rounded">
+                <span>{{ cat.name }}</span>
+                <button type="button" 
+        class="delete-category-btn text-red-500 hover:text-red-700 text-sm"
+        data-url="{% url 'todo:delete-category-ajax' %}"
+        data-category="{{ cat.pk }}">
+    ❌
+</button>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <!-- Form Actions -->
         <div class="flex justify-end pt-4 border-t border-gray-100">
             <a href="{% url 'todo:dashboard' %}" 
                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 transition">
@@ -31,12 +73,8 @@
         </div>
     </form>
 </div>
+{% endblock %}
 
-<!-- Optional: Add Category button (modal / ajax) -->
-<div class="max-w-lg mx-auto mt-4 text-right">
-    <button id="add-category-btn"
-            class="text-sm text-indigo-600 hover:underline">
-        + Add new category
-    </button>
-</div>
+{% block extra_js %}
+<script src="{% static 'todo/js/task_form.js' %}"></script>
 {% endblock %}

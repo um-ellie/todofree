@@ -10,4 +10,6 @@ urlpatterns = [
     path('delete/<int:pk>/', views.TaskDeleteView.as_view(), name='task-delete'),
     path("task/<int:pk>/toggle/", views.ToggleDoneView.as_view(), name="task-toggle"),
     path("task/<int:pk>/delete-ajax/", views.TaskDeleteAjaxView.as_view(), name="task-delete-ajax"),
+    path('category/add/', views.AddCategoryAjaxView.as_view(), name='add-category-ajax'),
+    path('category/delete/', views.DeleteCategoryAjaxView.as_view(), name='delete-category-ajax'),
 ]
