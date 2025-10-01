@@ -1,0 +1,22 @@
+/* Priority colors */
+.priority-label.L { background-color: #d1fae5; color: #065f46; } /* Low */
+.priority-label.M { background-color: #fef3c7; color: #78350f; } /* Medium */
+.priority-label.H { background-color: #fee2e2; color: #991b1b; } /* High */
+
+/* Done task */
+.task-item.done {
+    opacity: 0.6;
+    order: 999; /* moves done tasks to bottom in flex column */
+}
+
+/* Toggle icons */
+.toggle-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Task hover */
+.task-item:hover {
+    transform: translateY(-1px);
+    transition: 0.2s;
+}
