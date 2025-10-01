@@ -1,0 +1,86 @@
+# === Python ===
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+env/
+venv/
+ENV/
+
+# Local settings / secrets
+*.env
+*.env.*
+.env_file
+.env
+.env_echo
+
+# Byte-compiled / optimized / DLL files
+*.pyo
+*.pyd
+*.dll
+*.dylib
+
+# === Django ===
+*.log
+db.sqlite3
+db.sqlite3-journal
+media/
+staticfiles/          # collected static files (run collectstatic here, not in repo)
+
+# If using Django migrations cache
+*.pot
+*.pyc
+*.mo
+
+# === IDE / Editors ===
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# === Docker ===
+# Ignore local Docker build artifacts
+*.pid
+*.seed
+*.bak
+*.old
+*.tar
+*.tmp
+
+# Docker volumes & overrides
+docker-compose.override.yml
+docker-data/
+volumes/
+
+# === OS specific ===
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+__MACOSX/
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# === Testing ===
+.coverage
+.tox/
+.pytest_cache/
+htmlcov/
+*.coverage
+*.cover
+*.py,cover
+coverage.xml
+
+# === Build / Distribution ===
+build/
+dist/
+*.egg-info/
+.eggs/
+*.manifest
+*.spec

@@ -1,0 +1,23 @@
+<div class="w-full max-w-md bg-white rounded-lg shadow-md p-8 mx-auto">
+    {% if title %}
+        <h2 class="text-2xl font-bold text-indigo-600 mb-6 text-center">{{ title }}</h2>
+    {% endif %}
+
+    {% if form.errors %}
+        <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+            Please correct the errors below.
+        </div>
+    {% endif %}
+
+    <form method="{{ method|default:'post' }}" {% if enctype %}enctype="{{ enctype }}"{% endif %} class="space-y-4">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+            {{ button_text|default:"Submit" }}
+        </button>
+    </form>
+
+    {% if extra_text %}
+        <p class="text-center text-gray-600 mt-4">{{ extra_text|safe }}</p>
+    {% endif %}
+</div>

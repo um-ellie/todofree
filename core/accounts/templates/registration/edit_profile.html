@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block title %}Edit Profile - TodoFree{% endblock %}
+
+{% block content %}
+<div class="w-full max-w-lg bg-white rounded-lg shadow-md p-8 mx-auto">
+    <h2 class="text-2xl font-bold text-indigo-600 mb-6 text-center">Edit Your Profile</h2>
+
+    {% if form.errors %}
+        <div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+            Please correct the errors below.
+        </div>
+    {% endif %}
+
+    <form method="post" enctype="multipart/form-data" class="space-y-4">
+        {% csrf_token %}
+
+        <!-- First Name -->
+        <div>
+            <label for="{{ form.first_name.id_for_label }}" class="block text-gray-700 font-medium mb-1">First Name</label>
+            {{ form.first_name }}
+        </div>
+
+        <!-- Last Name -->
+        <div>
+            <label for="{{ form.last_name.id_for_label }}" class="block text-gray-700 font-medium mb-1">Last Name</label>
+            {{ form.last_name }}
+        </div>
+
+        <!-- Bio -->
+        <div>
+            <label for="{{ form.bio.id_for_label }}" class="block text-gray-700 font-medium mb-1">Bio</label>
+            {{ form.bio }}
+        </div>
+        <!-- Date of Birth -->
+        <div>
+            <label for="{{ form.date_of_birth.id_for_label }}" class="block text-gray-700 font-medium mb-1">Date of Birth</label>
+            {{ form.date_of_birth }}
+        </div>
+        <div>
+            <label for="{{ form.location.id_for_label }}" class="block text-gray-700 font-medium mb-1">Location</label>
+            {{ form.location }}
+        </div>
+        <div>
+            <label for="{{ form.language.id_for_label }}" class="block text-gray-700 font-medium mb-1">Language</label>
+            {{ form.language }}
+        </div>
+        <div>
+            <label for="{{ form.timezone.id_for_label }}" class="block text-gray-700 font-medium mb-1">Timezone</label>
+            {{ form.timezone }}
+        </div>
+        <div>
+            <label for="{{ form.social_links.id_for_label }}" class="block text-gray-700 font-medium mb-1">Social Links (JSON format)</label>
+            {{ form.social_links }}
+            <p class="text-sm text-gray-500 mt-1">Example: {"twitter": "https://twitter.com/yourhandle", "linkedin": "https://linkedin.com/in/yourprofile"}</p>
+        </div>
+        
+        <!-- Profile Image -->
+        <div>
+            <label class="block text-gray-700 font-medium mb-1">Profile Image</label>
+
+            {% if profile.image %}
+                <!-- Show preview thumbnail -->
+                <div class="mb-2">
+                    <img src="{{ profile.image.url }}" alt="Profile Image" class="w-24 h-24 rounded-full object-cover shadow-md">
+                </div>
+            {% endif %}
+
+            <!-- File input (Change profile) -->
+            <div class="mb-2">
+                <input type="file" name="{{ form.image.name }}" id="{{ form.image.id_for_label }}" class="w-full px-3 py-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-indigo-400">
+            </div>
+
+            <!-- Remove image checkbox -->
+            {% if profile.image %}
+                <div class="flex items-center">
+                    <input type="checkbox" name="remove_image" id="remove_image" class="mr-2" {% if form.data.remove_image %}checked{% endif %}>
+                    <label for="remove_image" class="text-gray-700">Remove current image</label>
+                </div>
+            {% endif %}
+        </div>
+        <button type="submit" class="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+            Save Changes
+        </button>
+    </form>
+</div>
+{% endblock %}

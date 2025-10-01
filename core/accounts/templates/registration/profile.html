@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - TodoFree{% endblock %}
+
+{% block content %}
+    <!-- Profile Section -->
+    <section class="container mx-auto px-4 py-12">
+        <div class="max-w-lg mx-auto bg-white rounded-lg shadow-md p-8">
+            <h2 class="text-2xl font-bold text-indigo-600 mb-6 text-center">Your Profile</h2>
+
+            <div class="flex flex-col items-center space-y-4">
+                {% if profile.image %}
+                    <img src="{{ profile.image.url }}" alt="Profile Image" class="w-24 h-24 rounded-full object-cover shadow-md">
+                {% else %}
+                    <div class="w-24 h-24 bg-gray-200 rounded-full flex items-center justify-center text-gray-500 font-bold text-xl">
+                        {{ user.email|slice:":1"|upper }}
+                    </div>
+                {% endif %}
+                <div class="flex flex-col items-left space-y-4">
+                <p class="text-gray-700"><span class="font-semibold">Email:</span> {{ user.email }}</p>
+                <p class="text-gray-700"><span class="font-semibold">First Name:</span> {{ profile.first_name|default:"-" }}</p>
+                <p class="text-gray-700"><span class="font-semibold">Last Name:</span> {{ profile.last_name|default:"-" }}</p>
+                <p class="text-gray-700"><span class="font-semibold">{% if profile.bio %}Bio:{% endif %} {{ profile.bio}}</p>
+                <p class="text-gray-700"><span class="font-semibold">{% if profile.date_of_birth %}Date of Birth:{% endif %} {{ profile.date_of_birth|date:"F j, Y"}}</p>
+                <p class="text-gray-700"><span class="font-semibold">{% if profile.location %}Location:{% endif %} {{ profile.location}}</p>
+                <p class="text-gray-700"><span class="font-semibold">{% if profile.language %}Language:{% endif %} {{ profile.language}}</p>
+                <p class="text-gray-700"><span class="font-semibold">{% if profile.timezone %}Timezone:{% endif %} {{ profile.timezone}}</p>
+                <p class="text-gray-700"><span class="font-semibold">{% if profile.social_links %}Social Links:{% endif %} 
+                    {% if profile.social_links %}
+                        <ul class="list-disc list-inside">
+                            {% for platform, link in profile.social_links.items %}
+                                <li><a href="{{ link }}" class="text-indigo-600 hover:underline">{{ platform|capfirst }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                </p>
+                <a href="{% url 'accounts:edit_profile' %}" class="mt-4 px-6 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 transition">
+                    Edit Profile
+                </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
